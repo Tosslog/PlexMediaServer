@@ -1,5 +1,5 @@
 # PlexMediaServer
-关于 Plex Media Server 所涉及的一切内容
+- 关于 Plex Media Server 所涉及的一切内容
 
 # 对于代码应用安全解释与说明
 
