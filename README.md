@@ -1,6 +1,6 @@
 # Plex Media Server
 - 这里会提及 Plex Media Server 有关的一切内容。
-- 如果您有什么疑问，可以访问这个项目的不完整![](https://img.shields.io/badge/-wiki-blue) 来解决您的部分疑问。
+- 如果您有什么疑问，可以访问这个项目的不完整![https://img.shields.io/badge/-wiki-blue](https://github.com/Tosslog/PlexMediaServer/wiki) 来解决您的部分疑问。
 
 # 对于代码应用安全解释与说明
 
