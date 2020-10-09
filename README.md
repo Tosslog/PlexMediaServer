@@ -1,5 +1,6 @@
 # 说明
 - Tosslog 的 Plex Media Server Project 是 非官方项目请勿把这里当客服！
+- **issues 目前仅接受plug-in的bug与疑问，除此话题该不接受。**
 - 官方网站 [![](https://img.shields.io/badge/PLEX-tv-%23999)](https://plex.tv/)
 - 官方论坛 [![](https://img.shields.io/badge/PLEX%20-Forum%20-orange)](https://forums.plex.tv/)
 
