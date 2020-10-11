@@ -1,4 +1,5 @@
 # 说明
+- **建议全程科学模式浏览github**
 - **如果遇到图片不显示或者莫名空白，打开科学全局或者把githubusercontent.com加到科学白名单。**
 - **Tosslog 的 Plex Media Server 项目是非官方项目请勿把这里当客服！**
 - **issues 目前仅接受plug-in的bug与疑问，除此话题概不接受。**
