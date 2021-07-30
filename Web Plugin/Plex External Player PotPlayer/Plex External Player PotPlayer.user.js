@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Plex External Player PotPlayer
 // @namespace    https://github.com/Tosslog/PlexMediaServer/tree/main/Web%20Plugin/Plex%20External%20Player%20PotPlayer
-// @version      1.2.0
+// @version      1.2.1
 // @description  插件用于激活本地PotPlayer 播放器使用。
 // @author       北京土著 30344386@qq.com
 // @include     /^https?://.*:32400/web.*
