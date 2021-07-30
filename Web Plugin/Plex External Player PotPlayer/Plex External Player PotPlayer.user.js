@@ -21,7 +21,7 @@ $("head").append(
 // 消息设定
 toastr.options = {
     "closeButton": true,
-    "debug": true,
+    "debug": false,
     "newestOnTop": true,
     "progressBar": true,
     "positionClass": "toast-bottom-right",
