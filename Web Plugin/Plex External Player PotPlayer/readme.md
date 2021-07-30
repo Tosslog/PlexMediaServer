@@ -5,5 +5,5 @@
 
 # en
 # Plex Web browser External player activation script
--Used to activate potplayer player in web browser mode
--At present, in addition to the internal subtitles, only one external subtitle can be brought in and cannot be selected.
+- Used to activate potplayer player in web browser mode
+- At present, in addition to the internal subtitles, only one external subtitle can be brought in and cannot be selected.
