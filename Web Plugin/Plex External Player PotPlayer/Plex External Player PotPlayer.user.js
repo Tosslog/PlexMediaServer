@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Plex External Player PotPlayer
 // @namespace    https://github.com/Tosslog/PlexMediaServer/tree/main/Web%20Plugin/Plex%20External%20Player%20PotPlayer
-// @version      1.2.2
+// @version      1.3.0
 // @description  插件用于激活本地PotPlayer 播放器使用。
 // @author       北京土著 30344386@qq.com
 // @include     /^https?://.*:32400/web.*
@@ -170,7 +170,7 @@ var makeRequest = function (url, serverId) {
 };
 
 var getHosts = function () {
-    MSG(Language.Find_server_server_address)
+    MSG(Language.Find_server_address)
     makeRequest('https://plex.tv/api/resources?includeHttps=1&X-Plex-Token=' + localStorage.myPlexAccessToken)
         .then(function (response) {
             let parts = response.responseXML.getElementsByTagName('Device');
@@ -197,7 +197,6 @@ var token = '';
 var title = '';
 setTimeout(function () {
     getHosts();
-    //console.log(token)
 }, 1000);
 
 
@@ -205,6 +204,7 @@ setTimeout(function () {
 var clickListener = function (e) {
     e.preventDefault();
     e.stopPropagation();
+    var subTitleID = jQuery(e.target).closest('button').attr('id')
     var a = jQuery(e.target).closest('a');
     var link = a.attr('href');
     var url = link;
@@ -248,7 +248,6 @@ var clickListener = function (e) {
             }
 
             let Stream = response.responseXML.getElementsByTagName('Stream');
-            //console.log(Stream)
             for (let i = 0; i < Stream.length; i++) {
                 if (Stream[i].attributes['key'] !== undefined) {
                     let subtitlekey = Stream[i].attributes['key'].value;
@@ -261,16 +260,22 @@ var clickListener = function (e) {
                 }
             }
 
-            let subtitleUrl = [];
-            for (let i = 0; i < subtitlelist.length; i++) {
-                subtitleUrl.push(pmsUrls.get(serverId) + subtitlelist[i]);
-            };
-
+            let subtitleUrl = '';
+            if (subTitleID !== undefined) {
+                subtitleUrl = pmsUrls.get(serverId) + '/library/streams/' + subTitleID
+            }
+            else {
+                if (subtitlelist.length > 0) {
+                    for (let i = 0; i < subtitlelist.length; i++) {
+                        subtitleUrl = pmsUrls.get(serverId) + subtitlelist[0]
+                    }
+                }
+            }
             var authedUrl = mediaurl + '&X-Plex-Token=' + token;
-            let poturl = "potplayer://" + authedUrl + " /sub=" + subtitleUrl[0] + '?X-Plex-Token=' + token;
+            let poturl = "potplayer://" + authedUrl + " /sub=" + subtitleUrl + '?X-Plex-Token=' + token;
             MSG(poturl, 'debug')
             showToast(getJSLocale(Language.Successfully_parsed_the_path_of_the_movie, { mediatitle: title }))
-            window.open(poturl, "_blank");
+            window.open(poturl, "_parent");
         });
 
 };
@@ -289,7 +294,6 @@ var bindClicks = function () {
         var template = jQuery('<button class="play-btn media-poster-btn btn-link plexextplayer" tabindex="-1" title="外部播放器"><i class="glyphicon play plexextplayer plexextplayerico"></i></button>');
         toolBar.prepend(template);
         template.click(clickListener);
-
     }
 
     // Cover page
@@ -364,7 +368,26 @@ jQuery('body').append('<style>.plexextplayericocover {right: 10px; top: 10px; po
 // 绑定按钮并每 100 毫秒检查一次新按钮
 // 放置脚本最后
 setInterval(bindClicks, 100);
-bindClicks();
+
+var chengeSubtitle = function () {
+    jQuery("div[class^='Menu-menu-1qURRT Menu-large-3Xoqor']").each(function (i, l_e) {
+        l_e = jQuery(l_e)
+        let sublist = l_e.find("[class^='SubtitlesStreamsMenu-menuLabelClassName-2ifVd9 SelectedMenuItem-menuLabel-1WTzXp']")
+        sublist.each(function (i, i_e) {
+            i_e = jQuery(i_e)
+            if (i_e.find('span')[0].innerText.indexOf('External') !== -1) {
+                let p_e = jQuery(i_e.parent())
+                if (i_e.parent().find('.plexextplayer').length === 0) {
+                    let subTitleID = i_e.parent().parent().attr('value')
+                    var template = jQuery('<button id="' + subTitleID + '" class="play-btn media-poster-btn btn-link plexextplayer" tabindex="-1" title="外部播放器"><i class="glyphicon play plexextplayer plexextplayerico"></i></button>');
+                    p_e.prepend(template)
+                    template.click(clickListener);
+                }
+            }
+        })
+    });
+}
+setInterval(chengeSubtitle, 100);
 
 function debugID() {
     function S4() {
@@ -422,7 +445,7 @@ if (lang === 'zh-cn') {
         unauthorized: '未授权',
         Request_return_status: '请求返回状态:{{:status}}',
         Call_error_response_code_message: '调用错误:{{:url}}\n响应:{{:responseText}}代码:{{:status}}消息:{{:statusText}}',
-        Find_server_server_address: '查找服务器地址',
+        Find_server_address: '查找服务器地址',
         Get_the_server_address: '得到服务器地址：{{:address}}',
         Failed_to_get_PMS_URLs: '获取服务器地址失败',
         Get_Media_address: '得到媒体地址:{{:mediaaddress}}',
@@ -442,7 +465,7 @@ if (lang === 'en') {
         unauthorized: 'unauthorized',
         Request_return_status: 'Request return status: {{:status}}',
         Call_error_response_code_message: 'Call error: {{:url}}\nResponse: {{:responseText}} Code: {{:status}} Message: {{:statusText}}',
-        Find_server_server_address: 'Find server server address',
+        Find_server_address: 'Find server address',
         Get_the_server_address: 'Get the server address:{{:address}}',
         Failed_to_get_PMS_URLs: 'Failed to get PMS URLs',
         Get_Media_address: 'Get media address:{{:mediaaddress}}',
